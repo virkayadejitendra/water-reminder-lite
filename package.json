@@ -1,0 +1,57 @@
+{
+  "name": "water-reminder-lite",
+  "displayName": "Water Reminder Lite",
+  "description": "A tiny, offline water reminder with pause, snooze and adjustable intervals.",
+  "version": "0.2.0",
+  "publisher": "jitendra-local",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "keywords": ["water", "reminder", "break", "hydration"],
+  "main": "./extension.js",
+  "extensionKind": ["ui"],
+  "activationEvents": ["onStartupFinished"],
+  "capabilities": {
+    "untrustedWorkspaces": { "supported": true },
+    "virtualWorkspaces": true
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "package": "npx --yes @vscode/vsce@4.0.0 package --no-dependencies --allow-missing-repository"
+  },
+  "contributes": {
+    "commands": [
+      { "command": "waterReminderLite.menu", "title": "Open Controls", "category": "Water Reminder" },
+      { "command": "waterReminderLite.start", "title": "Start Reminders", "category": "Water Reminder" },
+      { "command": "waterReminderLite.pause", "title": "Pause Reminders", "category": "Water Reminder" },
+      { "command": "waterReminderLite.snooze", "title": "Remind Me in 5 Minutes", "category": "Water Reminder" },
+      { "command": "waterReminderLite.drink", "title": "I Drank Water (Restart Timer)", "category": "Water Reminder" },
+      { "command": "waterReminderLite.test", "title": "Test Reminder Now", "category": "Water Reminder" },
+      { "command": "waterReminderLite.interval", "title": "Change Interval", "category": "Water Reminder" }
+    ],
+    "configuration": {
+      "title": "Water Reminder Lite",
+      "properties": {
+        "waterReminderLite.intervalMinutes": {
+          "type": "integer",
+          "default": 30,
+          "minimum": 1,
+          "maximum": 240,
+          "scope": "application",
+          "description": "Minutes between reminders (1–240). Changing this restarts an active timer."
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "waterReminderLite.hydrationView",
+          "name": "Hydration Buddy",
+          "visibility": "visible",
+          "initialSize": 170
+        }
+      ]
+    }
+  }
+}
