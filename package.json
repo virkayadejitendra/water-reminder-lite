@@ -1,13 +1,27 @@
 {
   "name": "water-reminder-lite",
   "displayName": "Water Reminder Lite",
-  "description": "A tiny, offline water reminder with pause, snooze and adjustable intervals.",
+  "description": "A lightweight, offline hydration timer with an animated Explorer companion, notifications, pause, and snooze.",
   "version": "0.2.0",
-  "publisher": "jitendra-local",
+  "publisher": "JitendraVirkayade",
   "license": "MIT",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#073b6f",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/virkayadejitendra/water-reminder-lite.git"
+  },
+  "homepage": "https://github.com/virkayadejitendra/water-reminder-lite#readme",
+  "bugs": {
+    "url": "https://github.com/virkayadejitendra/water-reminder-lite/issues"
+  },
   "engines": { "vscode": "^1.85.0" },
   "categories": ["Other"],
-  "keywords": ["water", "reminder", "break", "hydration"],
+  "keywords": ["water", "reminder", "break", "hydration", "health", "wellness", "timer", "offline"],
   "main": "./extension.js",
   "extensionKind": ["ui"],
   "activationEvents": ["onStartupFinished"],
@@ -48,8 +62,7 @@
           "type": "webview",
           "id": "waterReminderLite.hydrationView",
           "name": "Hydration Buddy",
-          "visibility": "visible",
-          "initialSize": 170
+          "visibility": "visible"
         }
       ]
     }

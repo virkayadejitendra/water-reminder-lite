@@ -7,6 +7,13 @@ const path = require('node:path');
 const vm = require('node:vm');
 const manifest = require('../package.json');
 
+test('Marketplace identity and repository metadata are publication-ready', () => {
+  assert.equal(manifest.publisher, 'JitendraVirkayade');
+  assert.equal(manifest.icon, 'images/icon.png');
+  assert.equal(manifest.repository.url, 'https://github.com/virkayadejitendra/water-reminder-lite.git');
+  assert.match(manifest.bugs.url, /^https:\/\/github\.com\//);
+});
+
 function host(savedEnabled) {
   const commands = new Map();
   const settings = { intervalMinutes: 30 };

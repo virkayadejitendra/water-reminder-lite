@@ -2,20 +2,21 @@
 
 ## Completed automated checks
 
-- All 18 Node.js tests pass using Node.js 24.15.0.
+- All 19 Node.js tests pass using Node.js 24.15.0.
 - JavaScript syntax checks pass for all three runtime files.
 - Tests cover default timing, acknowledgement, dismissal, five-minute snooze,
   pause/resume, background focus, duplicate prevention, invalid settings,
   changed intervals, stale notification actions and timer disposal.
 - Adapter tests check manifest/command agreement, status-bar wiring, ordered
   persistence of Start/Pause, user-level interval updates, Explorer view
-  registration, state updates, and quick-action allowlisting.
+  registration, state updates, quick-action allowlisting, publisher identity,
+  repository links, and Marketplace icon metadata.
 - The extension has no npm runtime dependencies. Packaging excludes tests,
   development configuration, caches and tool dependencies.
 
 - Packaged with Microsoft `@vscode/vsce` 4.0.0. The VSIX archive integrity,
   manifest XML and exact runtime file contents were checked. The package
-  contains eight entries and is 11605 bytes.
+  contains eleven entries and is approximately 145 KB.
 
 ## Desktop verification still needed
 

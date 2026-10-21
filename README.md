@@ -2,12 +2,25 @@
 
 A small, offline VS Code extension that reminds you to take a water break.
 It uses plain JavaScript, native VS Code notifications, a status-bar control
-and one scheduled timer. There are **no runtime dependencies**, accounts,
-network requests, telemetry, webviews or build steps.
+and one scheduled timer. The theme-aware Hydration Buddy is rendered in a
+sandboxed Explorer webview. There are **no runtime dependencies**, accounts,
+network requests, telemetry or build steps.
+
+## Features
+
+- Animated water glass with a live countdown in the Explorer sidebar
+- Native VS Code notifications with drink, snooze, and pause actions
+- Adjustable 1–240 minute reminder interval
+- Pause state remembered locally between sessions
+- Offline operation with no accounts, telemetry, or runtime dependencies
+- Theme-aware UI and reduced-motion accessibility support
 
 ## Install and use
 
-1. Download `water-reminder-lite-0.1.0.vsix`.
+Install **Water Reminder Lite** from the VS Code Marketplace, or install a
+downloaded VSIX manually:
+
+1. Download the latest `water-reminder-lite-*.vsix`.
 2. Open VS Code and press **Ctrl+Shift+P** (macOS: **Cmd+Shift+P**).
 3. Run **Extensions: Install from VSIX...** and choose the downloaded file.
 4. If VS Code asks, reload the window. **Water** appears on the right of the status bar.
@@ -63,8 +76,8 @@ reminders if they were paused.
 
 ## Open and edit the source
 
-1. Extract `water-reminder-lite-source.zip`.
-2. In VS Code, open the extracted **water-reminder-lite** folder itself.
+1. Clone <https://github.com/virkayadejitendra/water-reminder-lite>.
+2. In VS Code, open the cloned **water-reminder-lite** folder itself.
 3. Press **F5**, then choose **Run Water Reminder** if prompted. This opens an
    **Extension Development Host** window with the extension loaded.
 4. In that new window, run **Water Reminder: Test Reminder Now**.
@@ -101,10 +114,8 @@ The packaging command downloads Microsoft's `@vscode/vsce` tool if necessary;
 that development tool is **not included in the installed extension**.
 The resulting `.vsix` can be installed using the instructions above.
 
-`jitendra-local` is a local packaging identifier. Publishing to the Marketplace
-requires your own registered publisher ID in `package.json`, and a new version
-number when releasing changes. No Marketplace account is needed to use this
-local VSIX. Minimum supported desktop VS Code version: 1.85.
+Marketplace publisher: **JitendraVirkayade**. No Marketplace account is needed
+to use a local VSIX. Minimum supported desktop VS Code version: 1.85.
 
 ## Verification
 
