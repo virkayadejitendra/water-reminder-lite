@@ -2,7 +2,7 @@
   "name": "water-reminder-lite",
   "displayName": "Water Reminder Lite",
   "description": "An offline hydration tracker with reminders, configurable drink amounts, daily totals, history, and an animated Explorer companion.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "JitendraVirkayade",
   "license": "MIT",
   "icon": "images/icon.png",

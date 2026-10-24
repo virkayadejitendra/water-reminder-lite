@@ -2,6 +2,13 @@
 
 All notable changes to Water Reminder Lite are documented here.
 
+## 0.3.1 - 2026-10-24
+
+- Added secure, PAT-free GitHub Actions publishing to the VS Code Marketplace.
+- Added release validation that requires the Git tag to match the package version.
+- Includes the configurable drink amounts, daily goal, intake totals, and
+  locally stored hydration history introduced in 0.3.0.
+
 ## 0.3.0 - 2026-10-24
 
 - Added configurable per-drink amounts, including 150 ml and 200 ml presets.
