@@ -16,8 +16,9 @@ test('Marketplace identity and repository metadata are publication-ready', () =>
 
 function host(savedEnabled) {
   const commands = new Map();
-  const settings = { intervalMinutes: 30 };
+  const settings = { intervalMinutes: 30, drinkAmountMl: 200, dailyGoalMl: 2000 };
   const stored = [];
+  const globalValues = { enabled: savedEnabled, drinkHistory: {} };
   const listeners = {};
   const views = new Map();
   const status = { show() {}, dispose() {} };
@@ -53,8 +54,8 @@ function host(savedEnabled) {
   const context = {
     subscriptions: [],
     globalState: {
-      get: (key, fallback) => savedEnabled ?? fallback,
-      update: async (key, value) => stored.push([key, value])
+      get: (key, fallback) => globalValues[key] ?? fallback,
+      update: async (key, value) => { globalValues[key] = value; stored.push([key, value]); }
     }
   };
   const sandbox = {
@@ -63,7 +64,7 @@ function host(savedEnabled) {
   };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../extension.js'), 'utf8'), sandbox);
   sandbox.module.exports.activate(context);
-  return { commands, settings, stored, status, views,
+  return { commands, settings, stored, status, views, globalValues,
     dispose: () => context.subscriptions.forEach((item) => item.dispose()) };
 }
 
@@ -98,4 +99,22 @@ test('interval command saves a user setting and updates an active timer', async 
   await h.commands.get('waterReminderLite.interval')();
   assert.equal(h.settings.intervalMinutes, 45);
   assert.match(h.status.tooltip, /45 minutes/);
+});
+
+test('recording a drink persists the configured amount and updates today total', async (t) => {
+  const h = host(false);
+  t.after(h.dispose);
+  await h.commands.get('waterReminderLite.drink')();
+  const total = Object.values(h.globalValues.drinkHistory)[0];
+  assert.equal(total, 200);
+  assert.match(h.status.text, /200 ml/);
+  assert.equal(h.views.get('waterReminderLite.hydrationView').state.totalToday, 200);
+});
+
+test('drink amount command offers presets and updates the global setting', async (t) => {
+  const h = host(false);
+  t.after(h.dispose);
+  await h.commands.get('waterReminderLite.amount')();
+  assert.equal(h.settings.drinkAmountMl, 150);
+  assert.equal(h.views.get('waterReminderLite.hydrationView').state.drinkAmount, 150);
 });

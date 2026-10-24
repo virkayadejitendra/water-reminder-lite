@@ -2,6 +2,14 @@
 
 All notable changes to Water Reminder Lite are documented here.
 
+## 0.3.0 - 2026-10-24
+
+- Added configurable per-drink amounts, including 150 ml and 200 ml presets.
+- Added a configurable daily water goal.
+- Added today's total and goal progress to the Explorer companion and status bar.
+- Added locally persisted hydration history grouped by calendar date.
+- Added commands to view history and change drink or goal amounts.
+
 ## 0.2.0 - 2026-10-21
 
 - Added the animated Hydration Buddy to the Explorer sidebar.

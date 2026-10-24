@@ -1,7 +1,7 @@
 'use strict';
 
 const VIEW_ID = 'waterReminderLite.hydrationView';
-const ALLOWED_ACTIONS = new Set(['drink', 'snooze', 'start', 'pause']);
+const ALLOWED_ACTIONS = new Set(['drink', 'snooze', 'start', 'pause', 'history', 'amount']);
 
 function escapeHtml(value) {
   return String(value)
@@ -94,6 +94,30 @@ function webviewHtml(webview, state) {
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .intake { margin-top: 8px; }
+    .intake-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--vscode-descriptionForeground);
+      font-size: 12px;
+    }
+    .intake-row strong { color: var(--vscode-foreground); font-weight: 600; }
+    .progress {
+      height: 5px;
+      margin-top: 5px;
+      overflow: hidden;
+      border-radius: 3px;
+      background: var(--vscode-editorWidget-border, #555);
+    }
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--vscode-charts-blue, #3794ff);
+      opacity: 1;
+      transition: width .35s ease;
+    }
     .actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     button {
       border: 1px solid var(--vscode-button-border, transparent);
@@ -125,6 +149,7 @@ function webviewHtml(webview, state) {
     @keyframes alert { 50% { transform: scale(1.06); filter: drop-shadow(0 0 5px var(--vscode-charts-blue, #3794ff)); } }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; }
+      .progress-fill { transition: none; }
     }
   </style>
 </head>
@@ -139,10 +164,21 @@ function webviewHtml(webview, state) {
       <div class="detail" id="detail"></div>
     </div>
   </section>
+  <section class="intake" aria-label="Today's water intake">
+    <div class="intake-row">
+      <span>Today</span>
+      <strong id="total"></strong>
+    </div>
+    <div class="progress" role="progressbar" aria-label="Daily water goal">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+  </section>
   <div class="actions">
-    <button class="primary" id="drink" data-action="drink">I drank water</button>
+    <button class="primary" id="drink" data-action="drink"></button>
     <button id="snooze" data-action="snooze">Snooze 5m</button>
     <button id="toggle"></button>
+    <button data-action="history">History</button>
+    <button data-action="amount">Amount</button>
   </div>
   <script nonce="${nonce}">
     const vscode = acquireVsCodeApi();
@@ -167,6 +203,17 @@ function webviewHtml(webview, state) {
         : due ? 'Take a few refreshing sips.'
           : state.dueAt ? 'Next break in ' + duration(state.dueAt - Date.now())
             : 'Every ' + state.interval + ' minutes';
+      const goal = Math.max(1, state.dailyGoal || 2000);
+      const total = Math.max(0, state.totalToday || 0);
+      const percent = Math.min(100, Math.round((total / goal) * 100));
+      document.getElementById('total').textContent = total + ' / ' + goal + ' ml';
+      document.getElementById('drink').textContent = '+' + (state.drinkAmount || 200) + ' ml';
+      const progress = document.getElementById('progress');
+      progress.style.width = percent + '%';
+      progress.parentElement.setAttribute('aria-valuenow', String(total));
+      progress.parentElement.setAttribute('aria-valuemin', '0');
+      progress.parentElement.setAttribute('aria-valuemax', String(goal));
+      document.querySelector('.water').style.height = Math.max(12, Math.min(92, percent)) + '%';
       const toggle = document.getElementById('toggle');
       toggle.textContent = state.enabled ? 'Pause' : 'Start';
       toggle.dataset.action = state.enabled ? 'pause' : 'start';
@@ -191,7 +238,15 @@ function webviewHtml(webview, state) {
 class HydrationViewProvider {
   constructor(onAction) {
     this.onAction = onAction;
-    this.state = { enabled: false, dueAt: null, interval: 30, awaitingResponse: false };
+    this.state = {
+      enabled: false,
+      dueAt: null,
+      interval: 30,
+      awaitingResponse: false,
+      totalToday: 0,
+      drinkAmount: 200,
+      dailyGoal: 2000
+    };
     this.view = null;
   }
 
@@ -208,7 +263,7 @@ class HydrationViewProvider {
   }
 
   update(state) {
-    this.state = { ...state };
+    this.state = { ...this.state, ...state };
     if (this.view) void this.view.webview.postMessage({ type: 'state', state: this.state });
   }
 }

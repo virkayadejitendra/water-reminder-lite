@@ -9,6 +9,9 @@ network requests, telemetry or build steps.
 ## Features
 
 - Animated water glass with a live countdown in the Explorer sidebar
+- Configurable drink amount with 150 ml, 200 ml, and other presets
+- Today's intake total and progress toward a configurable daily goal
+- Local history of previous daily totals
 - Native VS Code notifications with drink, snooze, and pause actions
 - Adjustable 1–240 minute reminder interval
 - Pause state remembered locally between sessions
@@ -37,6 +40,19 @@ The notification says:
 > Time for a water break. Take a few sips.
 
 Its buttons are **I drank water**, **Remind me in 5 minutes**, and **Pause reminders**.
+
+## Track drinks and daily history
+
+Choose **Water Reminder: Change Drink Amount** to select 150 ml, 200 ml, or
+another preset, or enter a custom amount from 50–2000 ml. Each time you choose
+**I drank water**, that amount is added to today's total and the normal reminder
+timer restarts.
+
+Choose **Water Reminder: Change Daily Goal** to set a goal from 250–10000 ml.
+The Explorer companion and status bar show today's total. Run **Water Reminder:
+View Hydration History** or press **History** in the companion to review earlier
+dates. History is stored locally in the current VS Code profile; it is not sent
+over the network.
 
 ## Change the interval
 
@@ -93,6 +109,7 @@ development window before testing your source copy if necessary.
 | `extension.js` | Connects commands, notifications, settings and the status bar |
 | `src/reminder.js` | Handles timer, focus, snooze and pause behavior |
 | `src/hydrationView.js` | Renders the animated Explorer sidebar view and its quick actions |
+| `src/hydrationTracker.js` | Stores daily water totals and date-based history locally |
 | `test/reminder.test.js` | Tests timing and notification interactions without waiting in real time |
 | `test/extension.test.js` | Checks command registration, settings and persistence with a VS Code API stub |
 | `.vscode/launch.json` | Makes F5 launch the development window |

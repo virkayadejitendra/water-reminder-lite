@@ -1,8 +1,8 @@
 {
   "name": "water-reminder-lite",
   "displayName": "Water Reminder Lite",
-  "description": "A lightweight, offline hydration timer with an animated Explorer companion, notifications, pause, and snooze.",
-  "version": "0.2.0",
+  "description": "An offline hydration tracker with reminders, configurable drink amounts, daily totals, history, and an animated Explorer companion.",
+  "version": "0.3.0",
   "publisher": "JitendraVirkayade",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -21,7 +21,7 @@
   },
   "engines": { "vscode": "^1.85.0" },
   "categories": ["Other"],
-  "keywords": ["water", "reminder", "break", "hydration", "health", "wellness", "timer", "offline"],
+  "keywords": ["water", "reminder", "break", "hydration", "health", "wellness", "timer", "offline", "tracker"],
   "main": "./extension.js",
   "extensionKind": ["ui"],
   "activationEvents": ["onStartupFinished"],
@@ -39,9 +39,12 @@
       { "command": "waterReminderLite.start", "title": "Start Reminders", "category": "Water Reminder" },
       { "command": "waterReminderLite.pause", "title": "Pause Reminders", "category": "Water Reminder" },
       { "command": "waterReminderLite.snooze", "title": "Remind Me in 5 Minutes", "category": "Water Reminder" },
-      { "command": "waterReminderLite.drink", "title": "I Drank Water (Restart Timer)", "category": "Water Reminder" },
+      { "command": "waterReminderLite.drink", "title": "I Drank Water (Record and Restart Timer)", "category": "Water Reminder" },
       { "command": "waterReminderLite.test", "title": "Test Reminder Now", "category": "Water Reminder" },
-      { "command": "waterReminderLite.interval", "title": "Change Interval", "category": "Water Reminder" }
+      { "command": "waterReminderLite.interval", "title": "Change Interval", "category": "Water Reminder" },
+      { "command": "waterReminderLite.amount", "title": "Change Drink Amount", "category": "Water Reminder" },
+      { "command": "waterReminderLite.goal", "title": "Change Daily Goal", "category": "Water Reminder" },
+      { "command": "waterReminderLite.history", "title": "View Hydration History", "category": "Water Reminder" }
     ],
     "configuration": {
       "title": "Water Reminder Lite",
@@ -53,6 +56,22 @@
           "maximum": 240,
           "scope": "application",
           "description": "Minutes between reminders (1–240). Changing this restarts an active timer."
+        },
+        "waterReminderLite.drinkAmountMl": {
+          "type": "integer",
+          "default": 200,
+          "minimum": 50,
+          "maximum": 2000,
+          "scope": "application",
+          "description": "Millilitres added to today's total when you record a drink."
+        },
+        "waterReminderLite.dailyGoalMl": {
+          "type": "integer",
+          "default": 2000,
+          "minimum": 250,
+          "maximum": 10000,
+          "scope": "application",
+          "description": "Daily water goal in millilitres, used for progress and history percentages."
         }
       }
     },
